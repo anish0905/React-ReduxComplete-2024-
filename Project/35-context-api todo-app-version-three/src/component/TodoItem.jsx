@@ -1,13 +1,13 @@
 function TodoItem({ todoName, todoDate, handleDeleteItem }) {
   return (
-    <div class="container">
-      <div class="row kg-row">
-        <div class="col-6">{todoName}</div>
-        <div class="col-4">{todoDate}</div>
-        <div class="col-2">
+    <div className="container">
+      <div className="row kg-row">
+        <div className="col-6">{todoName}</div>
+        <div className="col-4">{todoDate}</div>
+        <div className="col-2">
           <button
             type="button"
-            class="btn btn-danger kg-button"
+            className="btn btn-danger kg-button"
             onClick={() => handleDeleteItem(todoName)}
           >
             Delete
@@ -17,4 +17,5 @@ function TodoItem({ todoName, todoDate, handleDeleteItem }) {
     </div>
   );
 }
+
 export default TodoItem;

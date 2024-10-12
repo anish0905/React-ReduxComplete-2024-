@@ -1,6 +1,9 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { TodoItemContext } from "../store/todo-items-store";
 
-function AddTodo({ handleNewItem }) {
+function AddTodo() {
+  const { addNewItem } = useContext(TodoItemContext); // Correctly access context
+
   const [todoName, setTodoName] = useState("");
   const [dueDate, setDueDate] = useState("");
 
@@ -9,19 +12,23 @@ function AddTodo({ handleNewItem }) {
   const handleNameChange = (event) => {
     setTodoName(event.target.value);
     noOfUpdates.current += 1;
+    console.log(`Number of updates: ${noOfUpdates.current}`);
   };
 
   const handleDateChange = (event) => {
     setDueDate(event.target.value);
-    console.log(`no of updates are  : ${noOfUpdates.current}`);
+    noOfUpdates.current += 1;
+    console.log(`Number of updates: ${noOfUpdates.current}`);
   };
 
   const handleAddButtonClicked = (event) => {
     event.preventDefault(); // Prevent form submission reload
     if (todoName && dueDate) {
-      handleNewItem(todoName, dueDate);
-      setTodoName(""); // Clear the inputs after adding
+      addNewItem(todoName, dueDate);
+      setTodoName(""); // Clear inputs after adding
       setDueDate("");
+    } else {
+      alert("Please enter both a todo name and a due date.");
     }
   };
 
@@ -32,22 +39,21 @@ function AddTodo({ handleNewItem }) {
           <input
             type="text"
             placeholder="Enter Todo Here"
-            value={todoName} // Bind input value to state
+            aria-label="Todo Name"
+            value={todoName}
             onChange={handleNameChange}
           />
         </div>
         <div className="col-4">
           <input
             type="date"
-            value={dueDate} // Bind input value to state
+            aria-label="Due Date"
+            value={dueDate}
             onChange={handleDateChange}
           />
         </div>
         <div className="col-2">
-          <button
-            type="submit" // Changed to submit
-            className="btn btn-success kg-button"
-          >
+          <button type="submit" className="btn btn-success kg-button">
             Add
           </button>
         </div>
