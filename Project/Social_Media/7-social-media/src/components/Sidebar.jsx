@@ -1,10 +1,14 @@
 import React from "react";
 
-export const Sidebar = () => {
+export const Sidebar = ({ selectedTab, setSelectedTab }) => {
+  const handleOnClick = (tabName) => {
+    setSelectedTab(tabName);
+  };
+
   return (
     <>
       <div
-        className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
+        className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark sidebar"
         style={{ width: "280px" }}
       >
         <a
@@ -18,20 +22,31 @@ export const Sidebar = () => {
         </a>
         <hr />
         <ul className="nav nav-pills flex-column mb-auto">
-          <li className="nav-item">
-            <a href="#" className="nav-link active" aria-current="page">
+          <li className="nav-item" onClick={() => handleOnClick("Home")}>
+            <a
+              href="#"
+              className={`nav-link  text-white ${
+                selectedTab === "Home" && "active"
+              }`}
+              aria-current="page"
+            >
               <svg className="bi pe-none me-2" width="16" height="16">
                 <use xlinkHref="#home"></use>
               </svg>
               Home
             </a>
           </li>
-          <li>
-            <a href="#" className="nav-link text-white">
+          <li onClick={() => handleOnClick("CreatePost")}>
+            <a
+              href="#"
+              className={`nav-link  text-white  ${
+                selectedTab === "CreatePost" && "active"
+              }`}
+            >
               <svg className="bi pe-none me-2" width="16" height="16">
                 <use xlinkHref="#speedometer2"></use>
               </svg>
-              Dashboard
+              create Post
             </a>
           </li>
           <li>
