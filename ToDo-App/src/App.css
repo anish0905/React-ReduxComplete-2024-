@@ -1,0 +1,42 @@
+.bodyl{
+  width: 100%;
+  margin: auto;
+  flex-wrap: nowrap;
+}
+
+
+form{
+  width: 100%;
+  display: flex;
+  gap: 5%;
+}
+form input {
+  width: 70%;
+  height: 40px;
+}
+form button {
+  width: 20%;
+}
+
+
+.listDeg {
+  margin-top: 20px; /* Add space from the top */
+  padding: 0;
+  list-style-type: none; /* Remove default bullet points */
+}
+
+.listDeg li {
+  border: 2px solid black;
+  background-color: black;
+  color: aliceblue;
+  margin-bottom: 10px; /* Space between each list item */
+  padding: 8px 15px; /* Padding for each item */
+  position: relative;
+  display: flex;
+  justify-content: space-between; /* Ensure content and 'x' are far apart */
+}
+
+.listDeg li span {
+  color: red; /* Style the 'x' */
+  cursor: pointer; /* Make 'x' look clickable */
+}
