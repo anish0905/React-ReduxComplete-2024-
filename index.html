@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website | Home</title>
+  <link href="login_css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="login_js/jquery.min.js"></script>
+  <!-- Custom Theme files -->
+  <!--theme-style-->
+  <link href="login_css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <!--//theme-style-->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="" />
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700|Arimo:400,700' rel='stylesheet' type='text/css'>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+<?php 
+    if(empty($cust_info))
+    {
+        $cust_info = array( (object) array(
+            "id" => "",
+            "customer_id" => "",
+            "customer_name" => "",
+            "mobile" => "",
+            "alt_mobile" => "",
+            "location" => "",
+            "district" => "",
+            "language" => "",
+            "business_type" => "",
+            "gms" => "",
+            "releasing_amount" => "",
+            "value" => "",
+            "bank_pawn_name" => "",
+            "assigned_to_agpl_branch" => "",
+            "online_price" => "",
+            "advertisement" => "",
+            "additional_option" => "",
+            "follow_up" => "",
+            "follow_up_yes_date" => "",
+            "follow_up_yes_status" => "",
+            "follow_up_no_status" => "",
+            "emp_code" => "",
+            "emp_name" => "",
+            "lead" => "",
+            "status" => "",
+        ));
+    }
+?>
+
+
+
+<div class="agent-page container-fluid "  font-size: 20px;>
+    <div class="row"  style="background-color: #00ff95";>
+        <?php if(!empty($annou)): ?>
+            <div class="col-md-12">
+                <marquee  direction='left' scrolldelay='200' style="color: red; font-size: 20px;"> <?php echo $annou; ?> </marquee>
+            </div>
+        <?php endif; ?>
+        <div class="col-md-12" style="background-color: #83ecd6; margin: 3px; padding: 5px;">
+                        
+            <div class="fa-pull-right">
+                <table class="form_table">
+                    <tr>
+                        <td> 
+                            <h4>
+                                <span class="label" style="background-color: gold;" > <strong> GOLD : <?php echo $gold; ?> </strong> </span> 
+                            </h4>
+                        </td>
+                        <td> 
+                            <h4>
+                                <span class="label label-info"> <strong " > Agent : <?php echo $agent_id; ?> </strong> </span> 
+                            </h4>
+                        </td>
+                        <td style="display: none;"> 
+                            <h4>
+                                <span class="label label-danger"> <strong> Call Type : <?php echo $group; ?> </strong> </span> 
+                            </h4>
+                        </td>
+                        <td> 
+                            <h4>
+                                <span class="label label-success"> <strong> OUTBOUND : <?php echo $Outbound; ?> </strong>  </span> 
+                            </h4>
+                        </td>
+                        <td> 
+                            <h4>
+                                <span class="label label-warning"> <strong> INBOUND : <?php echo $Inbound; ?> </strong> </span> 
+                            </h4>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a  href="#customer_info_tab" data-toggle="tab"> <strong> Customer Info </strong> </a></li>
+                <li><a href="#dispo_call" id='dispo_call_tab' data-toggle="tab"> <strong> Dispostion Calls </strong> </a></li>
+                <li><a href="#schedule_call" id='sch_call_tab' data-toggle="tab"> <strong > Scheduled Calls </strong> </a></li>
+                <li><a href="#missed_call" id='missed_call_tab' data-toggle="tab"> <strong> Missed Calls </strong> <span class="label label-danger" id="misscall_count">0</span> </a></li>
+				<li><a href="#not_submited_data" id='not_submited_call_tab' data-toggle="tab"> <strong> Not Submited Data </strong> <span class="label label-danger" id="not_submited_count">0</span> </a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active"  id="customer_info_tab">
+                
+                        <div>
+                            <table class="form_table">
+                                <tr> 
+                                    <td> <strong> Search </strong>  </td> <td> : </td> 
+                                    <td> 
+                                        <select class="form-control input-sm" id="cust_search_key">
+                                            <option value="mobile"> Phone </option>
+                                            <option value="customer_id"> Customer ID </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control input-sm" id="cust_search_val" value="">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" id="cust_info_search"> <i class="fa fa-search" aria-hidden="true"></i> </button> 
+                                    </td>
+                                    <?php if($auto_call_type == "Schedule_Autodial" || $auto_call_type == "Missed_Autodial"):?>
+                                        <td>
+                                            <h4>
+                                                <span class="label label-success"> <strong> Call Type : <?php echo str_replace("_"," ",$auto_call_type); ?> </strong>  </span> 
+                                            </h4>
+                                        </td>
+                                    <?php endif; ?>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <?php 
+                            foreach($cust_info as $cust_val); 
+                            // print_r($cust_val);
+                            $mask_phone = "XXXXXX";
+                        ?> 
+
+                        <input type="hidden" id="agent_id" value="<?php echo $agent_id; ?>">
+                        <input type="hidden" id="call_id" value="<?php echo $call_id; ?>">
+                        <input type="hidden" id="id" value="<?php echo $cust_val->id; ?>">
+                        <input type="hidden" id="group" value="<?php echo $group; ?>">
+
+                        <div id="cust_info_search_display"> 
+                            <?php if(count($cust_info_count) > 1): ?>
+                                <div>
+                                    <table class="form_table" align="center">
+                                        <tr>
+                                            <td> <strong> Customer ID </strong> </td> <td> : </td>
+                                            <td>
+                                                <select class="form-control input-sm" id="multiple_cust_id">
+                                                    <?php foreach($cust_info_count as $cust_info_val): ?>
+                                                    <option value="<?php echo $cust_info_val->customer_id; ?>"> <?php echo $cust_info_val->customer_id; ?> </option>
+                                                    <?php endforeach;?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+                            <div id="cust_info_multiple_search_display">
+                                <div class="box box-success">
+                                    <div class="box-header with-border" >
+                                        <span class="box-title"> Customer Details </span>
+                                    </div>
+                                    <div class="box-body box-profile" >
+                                        <table class="form_table">
+                                            <tr>
+                                                <td> <b> Customer ID </b> </td> <td>  : </td>
+                                                <td>
+                                                    <input type="text" class="form-control input-sm" id="customer_id" value="<?php echo $cust_val->customer_id; ?>" readonly >
+                                                </td>
+                                                
+                                                <td> <b> Customer Name </b> </td> <td>  : </td>
+                                                <td>
+                                                    <input type="text" class="form-control input-sm" id="customer_name" value="<?php echo $cust_val->customer_name; ?>" >
+                                                </td>
+
+                                                <td> <b> Mobile </b> </td> <td>  : </td>
+                                                <td>
+                                                    <input type="hidden" min="0" class="form-control input-sm" id="phone_no"   value="<?php echo $phone_no; ?>" readonly >
+                                                    <input type="text" min="0" class="form-control input-sm"  value="<?php echo $phone_no;  // if(!empty($phone_no)): $output_str = $mask_phone.substr($phone_no,6); echo $output_str; endif; ?>" readonly >
+                                                </td>
+
+                                                <td> <b> Alt Mobile </b> </td> <td>  : </td>
+                                                <td>
+                                                    <?php if(!empty($cust_val->alt_mobile)): ?>
+                                                        <input type="hidden" min="0" class="form-control input-sm" id="alt_mobile"   value="<?php echo $cust_val->alt_mobile; ?>" readonly >
+                                                        <input type="text" min="0" class="form-control input-sm"  value="<?php echo $cust_val->alt_mobile; //  $alt_output_str = $mask_phone.substr($cust_val->alt_mobile,6); echo $alt_output_str; ?>" readonly >
+                                                    <?php else: ?>
+                                                        <input type="number" min="0" class="form-control input-sm" id="alt_mobile" value="<?php echo $cust_val->alt_mobile; ?>"  >
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td> <b> Location </b> </td> <td>  : </td>
+                                                <td>
+                                                    <input type="text" class="form-control input-sm" id="location" value="<?php echo $cust_val->location; ?>" >
+                                                </td>
+                                                <td> <b> District </b> </td> <td>  : </td>
+                                                <td>
+                                                    <input type="text" class="form-control input-sm" id="district" value="<?php echo $cust_val->district; ?>" >
+                                                </td>
+												<td> <b> Language </b> </td> <td>  : </td>
+                                                <td>
+                                                    <?php if($group == "English" || $group == "Hindi" || $group == "Kannada" || $group == "Tamil" || $group == "Telugu" ): ?>
+                                                        <input type="text" class="form-control input-sm" id="language" value="<?php echo $group; ?>" >
+                                                    <?php else: ?>
+                                                        <input type="text" class="form-control input-sm" id="language" value="<?php echo $cust_val->language; ?>" >
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table class="imagetable" id="remarks_table" align="center" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th> Datetime </th> 
+                                                    <th> Agent ID </th>
+                                                    <th> Full Name </th>
+                                                    <th> Remarks </th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach($remarks_info as $remark_val): ?>
+                                                    <tr>
+                                                        <td> <?php  echo  $remark_val->remarks_date_time ?> </td>
+                                                        <td> <?php  echo  $remark_val->agent_id; ?> </td>
+                                                        <td> <?php if(!empty($remark_val->agent_id)): echo  $this->agent_model->get_agent_name($remark_val->agent_id); endif; ?> </td>
+                                                        <td> <?php  echo  $remark_val->remarks ?> </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="box box-warning">
+                                    <div class="box-header with-border" >
+                                        <span class="box-title"> Business Details </span>
+                                    </div>
+                                    <div class="box-body box-profile" >
+                                        <table class="form_table">
+                                            <tr>
+                                                <td> <b> Online Price </b> </td> <td>  : </td>
+                                                <td>
+                                                    <input type="number" min="0" class="form-control input-sm" id="online_price" value="<?php echo $cust_val->online_price; ?>" >
+                                                </td>
+
+                                                <td> <b> Business Type </b> </td> <td>  : </td>
+                                                <td>
+                                                    <select class="form-control input-sm" id="business_type"> 
+                                                        <option value="<?php echo $cust_val->business_type; ?>" selected> <?php echo $cust_val->business_type; ?> </option>
+                                                        <option value="None" <?php if(empty($cust_val->business_type)): ?> selected <?php endif; ?> > None </option>
+                                                        <option value="Physical"> Physical </option>
+                                                        <option value="Release"> Release </option>
+                                                        <option value="Physical+Release"> Physical+Release </option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td class="release_td"> <b> Grams </b> </td> <td class="release_td">  : </td>
+                                                <td class="release_td">
+                                                    <input type="number" min="0" class="form-control input-sm" id="gms" value="<?php echo $cust_val->gms; ?>" >
+                                                </td>
+                                            
+                                                <td class="physical_td"> <b> Releasing Amount </b> </td> <td class="physical_td">  : </td>
+                                                <td class="physical_td">
+                                                    <input type="number" min="0" class="form-control input-sm" id="releasing_amount" value="<?php echo $cust_val->releasing_amount; ?>" >
+                                                </td>
+                                            
+                                            </tr>
+                                            <tr>
+                                                <td class="release_td"> <b> Value </b> </td> <td class="release_td">  : </td>
+                                                <td class="release_td"> 
+                                                    <input type="number" min="0" class="form-control input-sm" id="value" value="<?php echo $cust_val->value; ?>" >
+                                                </td>
+
+                                                <td class="physical_td"> <b> Bank / Pawn Name </b> </td> <td class="physical_td">  : </td>
+                                                <td class="physical_td">
+                                                    <input type="text" class="form-control input-sm" id="bank_pawn_name" value="<?php echo $cust_val->bank_pawn_name; ?>" >
+                                                </td>
+
+                                                <td class="release_td"> <b> Assigned to AGPL Branch </b> </td> <td class="release_td">  : </td>
+                                                <td class="release_td">
+                                                    <input type="text" class="form-control input-sm" id="assigned_to_agpl_branch" value="<?php echo $cust_val->assigned_to_agpl_branch; ?>" autocomplete="off" >
+                                                    <div id="search_key_result">
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="box box-danger">
+                                    <div class="box-header with-border" >
+                                        <span class="box-title"> Additional Details </span>
+                                    </div>
+                                    <div class="box-body box-profile" >
+                                        <table class="form_table">
+                                            <tr>
+                                                <td> <b> Advertisement </b> </td> <td>  : </td>
+                                                <td>
+                                                    <select class="form-control input-sm" id="advertisement"> 
+                                                        <option value="<?php echo $cust_val->advertisement; ?>" selected> <?php echo $cust_val->advertisement; ?> </option>
+                                                        <option value="None" <?php if(empty($cust_val->advertisement)): ?> selected <?php endif; ?> > None </option>
+                                                        <option value="TV"> TV </option>
+                                                        <option value="Website"> Website </option>
+                                                        <option value="Bus"> Bus </option>
+                                                        <option value="Live chat"> Live chat </option>
+                                                        <option value="Whatsapp"> Whatsapp </option>
+                                                        <option value="Tata Ace"> Tata Ace </option>
+                                                        <option value="Facebook"> Facebook </option>
+                                                        <option value="Justdial"> Justdial </option>
+                                                        <option value="Sir Given"> Sir Given </option>
+                                                        <option value="Existing Customer"> Existing Customer </option>
+                                                    </select>
+                                                </td>
+                                            
+                                                <td> <b> Additional Option </b> </td> <td>  : </td>
+                                                <td>
+                                                    <input type="text" class="form-control input-sm" id="additional_option" value="<?php echo $cust_val->additional_option; ?>" >
+                                                </td>
+
+                                                <td> <b> Lead </b> </td> <td>  : </td>
+                                                <td>
+                                                    <select class="form-control input-sm" id="lead"> 
+                                                        <option value="<?php echo $cust_val->lead; ?>" selected> <?php echo $cust_val->lead; ?> </option>
+                                                        <option value="None" <?php if(empty($cust_val->lead)): ?> selected <?php endif; ?> > None </option>
+                                                        <option value="Hot"> Hot </option>
+                                                        <option value="Warm"> Warm </option>
+                                                        <option value="Cold"> Cold </option>
+                                                        <option value="Visited Sold"> Visited Sold </option>
+                                                        <option value="Visited Notsold"> Visited Notsold </option>
+                                                    </select>
+                                                </td>
+
+                                                <td> <b> Follow Up </b> </td> <td>  : </td>
+                                                <td>
+                                                    <select class="form-control input-sm" id="follow_up"> 
+                                                        <option value="<?php echo $cust_val->follow_up; ?>" selected> <?php echo $cust_val->follow_up; ?> </option>
+                                                        <option value="None" <?php if(empty($cust_val->follow_up)): ?> selected <?php endif; ?> > None </option>
+                                                        <option value="Yes"> Yes </option>
+                                                        <option value="No"> No </option>
+                                                    </select>
+                                                </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td class="yes_td"> <b> Datetime </b> </td> <td class="yes_td">  : </td>
+                                                <td class="yes_td">
+                                                    <!-- <input type="datetime-local" class="form-control input-sm" id="follow_up_date" value="<?php echo $cust_val->follow_up_yes; ?>" > -->
+                                                    <div class='input-group date' id='follow_up_datetimepicker'>
+                                                        <input type='text' class="form-control input-sm" value="" id="follow_up_date" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                <td class="yes_td"> <b> Status </b> </td> <td class="yes_td">  : </td>
+                                                <td class="yes_td">
+                                                    <select class="form-control input-sm" id="follow_up_yes_status"> 
+                                                        <option value="<?php echo $cust_val->follow_up_yes_status; ?>" selected> <?php echo $cust_val->follow_up_yes_status; ?> </option>
+                                                        <option value="None" <?php if(empty($cust_val->follow_up_yes_status)): ?> selected <?php endif; ?> > None </option>
+                                                        <option value="Palnning to visit"> Palnning to visit </option>
+                                                        <option value="Pending"> Pending </option>
+                                                        <option value="RNR"> RNR </option>
+                                                        <option value="Enquiry Online price"> Visited Online price </option>
+                                                        <option value="Enquiry Branch"> Enquiry Branch </option>
+                                                        <option value="Visited Sold"> Visited Sold </option>
+                                                        <option value="Visited Notsold"> Visited Notsold </option>
+<option value="Busy"> Busy  </option>
+                                                    </select>
+                                                </td>
+                                            
+                                                <td class="no_td"> <b> Status </b> </td> <td class="no_td">  : </td>
+                                                <td class="no_td">
+                                                    <select class="form-control input-sm" id="follow_up_no_status"> 
+                                                        <option value="<?php echo $cust_val->follow_up_no_status; ?>" selected> <?php echo $cust_val->follow_up_no_status; ?> </option>
+                                                        <option value="None" <?php if(empty($cust_val->follow_up_no_status)): ?> selected <?php endif; ?> > None </option>
+                                                        <option value="Cant send executive"> Cant send executive </option>
+                                                        <option value="Not feasible"> Not feasible </option>
+                                                        <option value="Not Interested"> Not Interested </option>
+                                                        <option value="Wrong call"> Wrong call </option>
+                                                        <option value="Branch call"> Branch call </option>
+                                                        <option value="Repledge option"> Repledge option </option>
+                                                        <option value="Enquiry Job"> Enquiry Job </option>
+                                                        <option value="Enquiry Advertisement"> Enquiry Advertisement </option>
+                                                        <option value="Enquiry others"> Enquiry others </option>
+                                                        <option value="Sale Made"> Sale Made </option>
+                                                        <option value="Franchise"> Franchise </option>
+<option value="MD Sir"> MD Sir </option>
+<option value="Othere department"> Othere department </option>
+<option value="DOOR STEP"> DOOR STEP </option>
+<option value="ENQUERY"> ENQUERY </option>
+<option value="GOLD BUYERS"> GOLD BUYERS </option>
+<option value="OUT OF STATE"> OUT OF STATE </option>
+<option value="PLEDGE"> PLEDGE </option>
+<option value="By  mistake call"> By  mistake call  </option>
+                                                    </select> 
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table class="form_table">
+                                            <tr>
+                                                <td> <b> Remarks</b> </td> <td>  : </td>
+                                                <td>
+                                                    <textarea style="resize:none;" cols="100" rows="3" class="form-control input-sm" id="remarks"></textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="box box-info">
+                                    <div class="box-header with-border" >
+                                        <span class="box-title"> Billing Info </span>
+                                    </div>
+                                    <div class="box-body box-profile" >
+										<table class="imagetable" id="remarks_table" align="center" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th> Mobile </th> 
+                                                    <th> Customer ID </th>
+                                                    <th> Billing Date </th>
+                                                    <th> Branch ID </th>
+													<th> Agent ID </th>
+													<th> Name </th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach($billing_info as $billing_val): ?>
+                                                    <tr>
+                                                        <td> <?php  echo  $billing_val->mobile ?> </td>
+                                                        <td> <?php  echo  $billing_val->customer_id; ?> </td>
+                                                        <td> <?php  echo  $billing_val->billing_date ?> </td>
+														<td> <?php  echo  $billing_val->branch_id ?> </td>
+														<td> <?php  echo  $billing_val->agnet_id ?> </td>
+														<td> <?php if(!empty($billing_val->agnet_id)): echo  $this->agent_model->get_agent_name($billing_val->agnet_id); endif; ?> </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <table class="form_table" align="center">
+                                    <tr>
+                                        <td colspan="9" style="text-align: center;"> 
+                                            <?php if(empty($cust_val->customer_id)): ?>
+                                                <button class="btn btn-xs btn-success" id="cust_info_add"> Submit </button>
+                                            <?php else: ?>
+                                                <button class="btn btn-xs btn-success" id="cust_info_update"> Update </button>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-xs btn-info" id="open_sms"> SMS </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="dispo_call">
+                        <table align="center">
+                            <tr>
+                                <td>
+                                    <div class='input-group date' id='dispo_datetimepicker'>
+                                        <input type='text' class="form-control input-sm"  id="dispo_date" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>                
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <div id="dispo_call_display">
+                        </div>
+                        
+                    </div>
+                
+                    <div class="tab-pane" id="schedule_call">
+                        
+                    </div>
+
+                    <div class="tab-pane" id="missed_call">
+                        <table class="form_table" align="center">
+                            <tr>
+                                <td>
+                                    <div class='input-group date' id='missed_datetimepicker'>
+                                        <input type='text' class="form-control input-sm"  id="missed_date" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>                
+                                </td>
+                                <td>
+                                    <select class="form-control input-sm" id="ingroup">
+                                        <option value="None" selected> None </option>
+                                        <option value="Incoming" > Incoming </option>
+                                        <option value="English"> English </option>
+                                        <option value="Hindi"> Hindi </option>
+                                        <option value="Kannada"> Kannada </option>
+                                        <option value="Tamil"> Tamil </option>
+                                        <option value="Telugu"> Telugu </option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div id="misscall_display">
+                            
+                        </div>
+                        
+                    </div>
+
+					<div class="tab-pane" id="not_submited_data">
+                        <div id="not_submited_display">
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+</body>
+</html>

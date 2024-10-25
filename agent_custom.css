@@ -1,0 +1,119 @@
+.form_table td
+{
+    padding: 5px;
+    
+}
+
+.lable_table td
+{
+    padding: 1px;
+}
+
+.cutom_lable
+{
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.agent-page
+{
+    margin: 3px;
+}
+
+.form_table_farmer td
+{
+    padding: 5px;
+}
+
+#search_key_result
+{
+    border: 1px solid grey;
+    z-index: 10000;
+    position: absolute;
+    width: 148px;
+    height: auto;
+    overflow: auto;
+    display: none;
+    background-color: white;
+        
+}
+
+ul
+{
+    list-style-type: none;
+    padding:0;
+    margin: 0;
+}
+
+#branch_info_list > li
+{
+    /*border: 1px solid grey;*/
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+#branch_info_list > li:hover
+{
+    background-color: lightgray;
+    /*border: 1px solid grey;*/
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+
+#branch_info_empty > li
+{
+    background-color: gray;
+    text-align: center;
+    font-weight: 600;
+    /*border: 1px solid grey;*/
+    padding: 5px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+table.imagetable 
+{
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #999999;
+    border-collapse: collapse;   
+}
+
+table.imagetable thead th 
+{
+    background:#ebebe0;
+    border-width: 1px;
+    padding: 3px;
+    border-style: solid;
+    border-color: #999999;
+    color: black !important;
+    text-align:center;
+}
+
+table.imagetable tbody td 
+{
+    background: white;
+    border-width: 1px;
+    padding: 2px;
+    border-style: solid;
+    border-color: #999999;
+    text-align:center;
+}
+
+
+#phone_sreach_info
+{
+    height: 400px;
+    overflow: auto;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

@@ -16,6 +16,7 @@ const GetTodoItems = ({ data, setData }) => {
           return (
             <li key={index}>
               {val} <span onClick={() => handleDelete(index)}>x</span>
+              <button onClick={() => handleEdit(index, val)}>Edit</button>
             </li>
           );
         })}
